@@ -769,7 +769,7 @@
       </div>
     </div>
 
-    <div class="footer">made by <span> zizou ♡</span> and lots of <span>🌸</span> · powered by FastAPI + T5</div>
+    <div class="footer">made by <span> zizou♡</span> and lots of <span>🌸</span> · powered by FastAPI + T5</div>
   </div>
 
   <script>
@@ -824,7 +824,7 @@
       btn.disabled = true;
 
       try {
-        const res = await fetch('http://localhost:8000/summarize', {
+        const res = await fetch('https://let-me-summarize.onrender.com/summarize', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ text, ratio })

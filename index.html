@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Let Me Summarize 🌸</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Zen+Maru+Gothic:wght@400;500;700&display=swap"
+    rel="stylesheet" />
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+
+    :root {
+      --sakura: #ffb7c5;
+      --sakura2: #ff8fab;
+      --sakura3: #ffd6e0;
+      --petal: #fff0f3;
+      --white: #fffafb;
+      --lavender: #e8d5f5;
+      --mint: #d5f0e8;
+      --yellow: #fff3b0;
+      --ink: #3d2c35;
+      --ink-soft: #8a6070;
+      --ink-muted: #c4a0b0;
+      --border: #fad0dc;
+      --shadow: rgba(255, 140, 170, 0.18);
+    }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: var(--petal);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0 16px 80px;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: -150px;
+      right: -150px;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(255, 183, 197, 0.3) 0%, transparent 65%);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      bottom: -100px;
+      left: -100px;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(232, 213, 245, 0.35) 0%, transparent 65%);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .petals-bg {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .petal {
+      position: absolute;
+      top: -30px;
+      animation: fall linear infinite;
+      opacity: 0.6;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(-30px) rotate(0deg);
+        opacity: .7
+      }
+
+      100% {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0
+      }
+    }
+
+    .wrap {
+      width: 100%;
+      max-width: 660px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Header */
+    .header {
+      text-align: center;
+      padding: 40px 0 32px;
+      animation: popIn .6s cubic-bezier(.34, 1.56, .64, 1) both;
+    }
+
+    .cat {
+      animation: catBob 3s ease-in-out infinite;
+      display: block;
+      margin: 0 auto 12px;
+    }
+
+    @keyframes catBob {
+
+      0%,
+      100% {
+        transform: translateY(0)
+      }
+
+      50% {
+        transform: translateY(-8px)
+      }
+    }
+
+    .cat-blink {
+      animation: blink 4s ease-in-out infinite;
+    }
+
+    @keyframes blink {
+
+      0%,
+      45%,
+      55%,
+      100% {
+        transform: scaleY(1)
+      }
+
+      50% {
+        transform: scaleY(0.1)
+      }
+    }
+
+    .title {
+      font-family: 'Zen Maru Gothic', sans-serif;
+      font-size: clamp(28px, 7vw, 46px);
+      font-weight: 700;
+      color: var(--ink);
+      letter-spacing: -.01em;
+      line-height: 1.1;
+    }
+
+    .title span {
+      color: var(--sakura2);
+      display: inline-block;
+      animation: wiggle 2s ease-in-out infinite;
+    }
+
+    @keyframes wiggle {
+
+      0%,
+      100% {
+        transform: rotate(-2deg)
+      }
+
+      50% {
+        transform: rotate(2deg)
+      }
+    }
+
+    .subtitle {
+      margin-top: 10px;
+      font-size: 15px;
+      color: var(--ink-soft);
+      font-weight: 600;
+    }
+
+    .badges {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      background: white;
+      border: 2px solid var(--border);
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--ink-soft);
+    }
+
+    @keyframes popIn {
+      from {
+        opacity: 0;
+        transform: scale(.92) translateY(20px)
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0)
+      }
+    }
+
+    /* Card */
+    .card {
+      background: white;
+      border: 2.5px solid var(--border);
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: 0 8px 40px var(--shadow);
+      animation: popIn .6s .1s cubic-bezier(.34, 1.56, .64, 1) both;
+    }
+
+    .card-header {
+      background: linear-gradient(135deg, var(--sakura3) 0%, var(--lavender) 100%);
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 2px solid var(--border);
+    }
+
+    .card-header-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.6);
+    }
+
+    .card-header-title {
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--ink);
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      flex: 1;
+      text-align: center;
+    }
+
+    .input-section {
+      padding: 24px 24px 16px;
+    }
+
+    .section-label {
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      margin-bottom: 10px;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 180px;
+      background: var(--petal);
+      border: 2px solid var(--border);
+      border-radius: 18px;
+      padding: 16px 18px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 14px;
+      line-height: 1.8;
+      color: var(--ink);
+      resize: vertical;
+      outline: none;
+      transition: border-color .2s, box-shadow .2s;
+      caret-color: var(--sakura2);
+    }
+
+    textarea::placeholder {
+      color: var(--ink-muted);
+    }
+
+    textarea:focus {
+      border-color: var(--sakura2);
+      box-shadow: 0 0 0 4px rgba(255, 143, 171, .15);
+      background: white;
+    }
+
+    .textarea-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 8px;
+      padding: 0 4px;
+    }
+
+    .word-pill {
+      background: var(--sakura3);
+      color: var(--sakura2);
+      font-size: 11px;
+      font-weight: 800;
+      padding: 3px 10px;
+      border-radius: 20px;
+    }
+
+    .clear-btn {
+      background: none;
+      border: none;
+      font-family: 'Nunito', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--ink-muted);
+      cursor: pointer;
+      transition: color .15s;
+      padding: 0;
+    }
+
+    .clear-btn:hover {
+      color: var(--sakura2);
+    }
+
+    .divider {
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+      margin: 0 24px;
+    }
+
+    /* Slider */
+    .slider-section {
+      padding: 20px 24px;
+    }
+
+    .slider-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .slider-name {
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+    }
+
+    .slider-hint {
+      font-size: 12px;
+      color: var(--ink-muted);
+      margin-top: 2px;
+      font-weight: 600;
+    }
+
+    .slider-bubble {
+      background: linear-gradient(135deg, var(--sakura2), #ff6b9d);
+      color: white;
+      font-family: 'Zen Maru Gothic', sans-serif;
+      font-size: 26px;
+      font-weight: 700;
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 16px rgba(255, 107, 157, .35);
+      flex-direction: column;
+      line-height: 1;
+    }
+
+    .slider-bubble small {
+      font-size: 11px;
+      opacity: .85;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 700;
+    }
+
+    input[type=range] {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 8px;
+      background: var(--sakura3);
+      border-radius: 20px;
+      outline: none;
+      cursor: pointer;
+    }
+
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--sakura2), #ff6b9d);
+      border: 3px solid white;
+      box-shadow: 0 3px 12px rgba(255, 107, 157, .4);
+      cursor: pointer;
+      transition: transform .15s;
+    }
+
+    input[type=range]::-webkit-slider-thumb:hover {
+      transform: scale(1.2);
+    }
+
+    .slider-labels {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--ink-muted);
+    }
+
+    /* Button */
+    .btn-section {
+      padding: 4px 24px 24px;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, var(--sakura2) 0%, #ff6b9d 100%);
+      color: white;
+      border: none;
+      border-radius: 18px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 17px;
+      font-weight: 900;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: transform .2s, box-shadow .2s;
+      box-shadow: 0 6px 24px rgba(255, 107, 157, .4);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 32px rgba(255, 107, 157, .45);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .btn:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn.loading .btn-text {
+      display: none;
+    }
+
+    .btn.loading .btn-loader {
+      display: flex;
+    }
+
+    .btn-loader {
+      display: none;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .pawprint {
+      font-size: 18px;
+      animation: pawBounce .6s ease infinite alternate;
+    }
+
+    .pawprint:nth-child(2) {
+      animation-delay: .15s;
+    }
+
+    .pawprint:nth-child(3) {
+      animation-delay: .3s;
+    }
+
+    @keyframes pawBounce {
+      from {
+        transform: translateY(0);
+        opacity: .5
+      }
+
+      to {
+        transform: translateY(-6px);
+        opacity: 1
+      }
+    }
+
+    /* Result */
+    .result-card {
+      margin-top: 20px;
+      background: white;
+      border: 2.5px solid var(--border);
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: 0 8px 32px var(--shadow);
+      display: none;
+      animation: popIn .5s cubic-bezier(.34, 1.56, .64, 1) both;
+    }
+
+    .result-card.show {
+      display: block;
+    }
+
+    .result-header {
+      background: linear-gradient(135deg, var(--mint) 0%, var(--yellow) 100%);
+      padding: 14px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 2px solid #d5ecd5;
+    }
+
+    .result-label {
+      font-size: 13px;
+      font-weight: 800;
+      color: #3a7a4a;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    .copy-btn {
+      background: white;
+      border: 2px solid #b5ddc0;
+      color: #3a7a4a;
+      font-family: 'Nunito', sans-serif;
+      font-size: 12px;
+      font-weight: 800;
+      padding: 5px 14px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all .15s;
+    }
+
+    .copy-btn:hover {
+      background: #3a7a4a;
+      color: white;
+    }
+
+    .result-body {
+      padding: 22px 24px;
+    }
+
+    .speech-wrap {
+      display: flex;
+      align-items: flex-end;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .mini-cat {
+      font-size: 32px;
+      animation: catBob 2s ease-in-out infinite;
+    }
+
+    .speech-bubble {
+      background: var(--sakura3);
+      border: 2px solid var(--border);
+      border-radius: 18px 18px 18px 4px;
+      padding: 10px 16px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--ink-soft);
+    }
+
+    .result-text {
+      font-family: 'Zen Maru Gothic', sans-serif;
+      font-size: 16px;
+      line-height: 1.85;
+      color: var(--ink);
+      background: var(--petal);
+      border: 2px solid var(--border);
+      border-radius: 16px;
+      padding: 18px 20px;
+    }
+
+    .stats {
+      display: flex;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .stat {
+      flex: 1;
+      text-align: center;
+      background: var(--petal);
+      border: 2px solid var(--border);
+      border-radius: 16px;
+      padding: 14px 8px;
+      transition: transform .15s;
+    }
+
+    .stat:hover {
+      transform: translateY(-3px);
+    }
+
+    .stat-num {
+      font-family: 'Zen Maru Gothic', sans-serif;
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--sakura2);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--ink-muted);
+      margin-top: 4px;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+    }
+
+    .error-card {
+      margin-top: 16px;
+      background: #fff0f3;
+      border: 2px solid #ffb7c5;
+      border-radius: 20px;
+      padding: 16px 20px;
+      font-size: 14px;
+      font-weight: 700;
+      color: #c0306a;
+      display: none;
+      animation: popIn .3s ease both;
+      text-align: center;
+    }
+
+    .error-card.show {
+      display: block;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 32px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--ink-muted);
+      animation: popIn .6s .3s both;
+    }
+
+    .footer span {
+      color: var(--sakura2);
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="petals-bg" id="petalsContainer"></div>
+
+  <div class="wrap">
+
+    <div class="header">
+      <svg class="cat" width="100" height="90" viewBox="0 0 100 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="18,38 28,12 40,38" fill="#ffb7c5" />
+        <polygon points="22,36 28,18 37,36" fill="#ffd6e0" />
+        <polygon points="60,38 72,12 82,38" fill="#ffb7c5" />
+        <polygon points="63,36 72,18 79,36" fill="#ffd6e0" />
+        <ellipse cx="50" cy="52" rx="34" ry="30" fill="#ffe0e8" />
+        <ellipse cx="30" cy="58" rx="8" ry="5" fill="#ffb7c5" opacity=".5" />
+        <ellipse cx="70" cy="58" rx="8" ry="5" fill="#ffb7c5" opacity=".5" />
+        <g class="cat-blink">
+          <ellipse cx="38" cy="50" rx="6" ry="7" fill="#3d2c35" />
+          <ellipse cx="62" cy="50" rx="6" ry="7" fill="#3d2c35" />
+          <circle cx="40" cy="48" r="2" fill="white" />
+          <circle cx="64" cy="48" r="2" fill="white" />
+        </g>
+        <ellipse cx="50" cy="60" rx="3" ry="2" fill="#ff8fab" />
+        <path d="M46 63 Q50 67 54 63" stroke="#ff8fab" stroke-width="1.5" fill="none" stroke-linecap="round" />
+        <line x1="16" y1="58" x2="36" y2="60" stroke="#c4a0b0" stroke-width="1.2" stroke-linecap="round" />
+        <line x1="16" y1="63" x2="36" y2="63" stroke="#c4a0b0" stroke-width="1.2" stroke-linecap="round" />
+        <line x1="84" y1="58" x2="64" y2="60" stroke="#c4a0b0" stroke-width="1.2" stroke-linecap="round" />
+        <line x1="84" y1="63" x2="64" y2="63" stroke="#c4a0b0" stroke-width="1.2" stroke-linecap="round" />
+        <text x="78" y="22" font-size="14">✨</text>
+      </svg>
+      <h1 class="title">Let Me <span>Summarize</span></h1>
+      <p class="subtitle"> paste your text and i'll make it tiny! 🌸</p>
+      <div class="badges">
+        <div class="badge">🤖 T5 Model</div>
+        <div class="badge">⚡ FastAPI</div>
+        <div class="badge">🌸 Kawaii Mode</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-header-dot" style="background:#ff8fab"></div>
+        <div class="card-header-dot" style="background:#ffcb77"></div>
+        <div class="card-header-dot" style="background:#a8e6cf"></div>
+        <div class="card-header-title">✦ summarize your text ✦</div>
+      </div>
+
+      <div class="input-section">
+        <div class="section-label">📝 your text</div>
+        <textarea id="inputText" placeholder="paste your article, paper, or any long text here~  (≧◡≦) ♡"
+          oninput="updateWordCount()"></textarea>
+        <div class="textarea-footer">
+          <div class="word-pill" id="wordPill">0 words</div>
+          <button class="clear-btn" onclick="clearText()">clear ✕</button>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="slider-section">
+        <div class="slider-row">
+          <div>
+            <div class="slider-name">🎀 summary length</div>
+            <div class="slider-hint" id="sliderHint">short & punchy~</div>
+          </div>
+          <div class="slider-bubble" id="sliderBubble">30<small>%</small></div>
+        </div>
+        <input type="range" id="ratioSlider" min="10" max="70" value="30" step="5" oninput="updateSlider(this.value)" />
+        <div class="slider-labels">
+          <span>10% tiny</span>
+          <span>40% balanced</span>
+          <span>70% detailed</span>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="btn-section">
+        <button class="btn" id="summarizeBtn" onclick="summarize()">
+          <span class="btn-text">🐱 summarize it! ✨</span>
+          <span class="btn-loader">
+            <span class="pawprint">🐾</span>
+            <span class="pawprint">🐾</span>
+            <span class="pawprint">🐾</span>
+          </span>
+        </button>
+      </div>
+    </div>
+
+    <div class="error-card" id="errorCard"></div>
+
+    <div class="result-card" id="resultCard">
+      <div class="result-header">
+        <div class="result-label">✅ summary ready!</div>
+        <button class="copy-btn" onclick="copyResult()">copy 📋</button>
+      </div>
+      <div class="result-body">
+        <div class="speech-wrap">
+          <div class="mini-cat">🐱</div>
+          <div class="speech-bubble" id="speechMsg"> here's your summary!</div>
+        </div>
+        <div class="result-text" id="resultText"></div>
+        <div class="stats">
+          <div class="stat">
+            <div class="stat-num" id="statOriginal">—</div>
+            <div class="stat-label">original words</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num" id="statSummary">—</div>
+            <div class="stat-label">summary words</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num" id="statReduction">—</div>
+            <div class="stat-label">reduced by</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">made by <span> zizou ♡</span> and lots of <span>🌸</span> · powered by FastAPI + T5</div>
+  </div>
+
+  <script>
+    // Falling petals
+    const emojis = ['🌸', '🌸', '🌺', '✨', '🌸'];
+    const pc = document.getElementById('petalsContainer');
+    for (let i = 0; i < 18; i++) {
+      const p = document.createElement('div');
+      p.className = 'petal';
+      p.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      p.style.left = Math.random() * 100 + 'vw';
+      p.style.fontSize = (12 + Math.random() * 14) + 'px';
+      p.style.animationDuration = (6 + Math.random() * 10) + 's';
+      p.style.animationDelay = (Math.random() * 10) + 's';
+      pc.appendChild(p);
+    }
+
+    function updateWordCount() {
+      const t = document.getElementById('inputText').value.trim();
+      const c = t ? t.split(/\s+/).length : 0;
+      document.getElementById('wordPill').textContent = c + ' words';
+    }
+
+    function clearText() {
+      document.getElementById('inputText').value = '';
+      updateWordCount();
+      document.getElementById('resultCard').classList.remove('show');
+      document.getElementById('errorCard').classList.remove('show');
+    }
+
+    const hints = { 10: 'super tiny~ (10%)', 15: 'very short~ (15%)', 20: 'pretty short (20%)', 25: 'short & sweet (25%)', 30: 'short & punchy~ (30%)', 35: 'nicely compact (35%)', 40: 'balanced~ (40%)', 45: 'a bit detailed (45%)', 50: 'medium length (50%)', 55: 'fairly detailed (55%)', 60: 'quite detailed (60%)', 65: 'very detailed (65%)', 70: 'almost full~ (70%)' };
+
+    function updateSlider(val) {
+      document.getElementById('sliderBubble').innerHTML = val + '<small>%</small>';
+      document.getElementById('sliderHint').textContent = hints[val] || val + '%';
+    }
+
+    async function summarize() {
+      const text = document.getElementById('inputText').value.trim();
+      const ratio = parseInt(document.getElementById('ratioSlider').value) / 100;
+      const btn = document.getElementById('summarizeBtn');
+      const errorCard = document.getElementById('errorCard');
+      const resultCard = document.getElementById('resultCard');
+
+      errorCard.classList.remove('show');
+      resultCard.classList.remove('show');
+
+      if (!text) { showError(' please paste some text first! (｡•́︿•̀｡)'); return; }
+      if (text.split(/\s+/).length < 10) { showError('your text is too short! paste a longer article~ 🌸'); return; }
+
+      btn.classList.add('loading');
+      btn.disabled = true;
+
+      try {
+        const res = await fetch('http://localhost:8000/summarize', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text, ratio })
+        });
+        if (!res.ok) {
+          const err = await res.json();
+          throw new Error(err.detail?.[0]?.msg || 'something went wrong~');
+        }
+        const data = await res.json();
+        document.getElementById('resultText').textContent = data.summary;
+        document.getElementById('statOriginal').textContent = data.original_words;
+        document.getElementById('statSummary').textContent = data.summary_words;
+        document.getElementById('statReduction').textContent = data.reduction_percent + '%';
+        const msgs = [' here\'s your summary! (≧◡≦)', 'purrfect! i summarized it~ 🐾', 'done nya~! so much shorter! ✨', 'meow! your summary is ready! 🌸'];
+        document.getElementById('speechMsg').textContent = msgs[Math.floor(Math.random() * msgs.length)];
+        resultCard.classList.add('show');
+        resultCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      } catch (err) {
+        if (err.message.includes('fetch')) {
+          showError('can\'t reach the server! 😿 make sure FastAPI is running at localhost:8000~');
+        } else {
+          showError(' something went wrong: ' + err.message);
+        }
+      } finally {
+        btn.classList.remove('loading');
+        btn.disabled = false;
+      }
+    }
+
+    function copyResult() {
+      const text = document.getElementById('resultText').textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        const btn = document.querySelector('.copy-btn');
+        btn.textContent = 'copied! ✓';
+        setTimeout(() => btn.textContent = 'copy 📋', 2000);
+      });
+    }
+
+    function showError(msg) {
+      const el = document.getElementById('errorCard');
+      el.textContent = msg;
+      el.classList.add('show');
+    }
+  </script>
+</body>
+
+</html>
